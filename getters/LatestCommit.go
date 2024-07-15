@@ -10,7 +10,14 @@ import (
 
 var excludedRepos = []string{"JasonLovesDoggo/JasonLovesDoggo", "JasonLovesDoggo/notes"} // List of repos to exclude from the search (constant)
 
-func GetMostRecentCommit(client *githubv4.Client) {
+type MostRecentCommit struct {
+	Oid             githubv4.GitObjectID
+	MessageHeadline string
+	URL             githubv4.URI
+	CommittedDate   time.Time
+}
+
+func GetMostRecentCommit(client *githubv4.Client) (MostRecentCommit, error) {
 	var query struct {
 		User struct {
 			Repositories struct {
@@ -44,16 +51,11 @@ func GetMostRecentCommit(client *githubv4.Client) {
 	err := client.Query(context.Background(), &query, variables)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return MostRecentCommit{}, err
 	}
 
-	var mostRecentCommit struct {
-		Oid             githubv4.GitObjectID
-		MessageHeadline string
-		URL             githubv4.URI
-		CommittedDate   time.Time
-	}
 	mostRecentCommitTime := time.Time{} // Initialize to zero time
+	mostRecentCommit := MostRecentCommit{}
 
 	for _, repo := range query.User.Repositories.Nodes {
 		if !slices.Contains(excludedRepos, repo.Name) {
@@ -70,5 +72,6 @@ func GetMostRecentCommit(client *githubv4.Client) {
 	fmt.Println("Message:", mostRecentCommit.MessageHeadline)
 	fmt.Println("URL:", mostRecentCommit.URL)
 	fmt.Println("Committed Date:", mostRecentCommit.CommittedDate)
+	return mostRecentCommit, nil
 	// todo: returning
 }
