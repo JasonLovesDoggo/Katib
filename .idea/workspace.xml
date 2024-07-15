@@ -4,7 +4,8 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d9fd4bb3-42d6-44d9-9812-7461a3a0f874" name="Changes" comment="Updated docker &amp; fly configs">
+    <list default="true" id="d9fd4bb3-42d6-44d9-9812-7461a3a0f874" name="Changes" comment="added ginmode as release">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -85,6 +86,10 @@
       <framework value="gotest" />
       <method v="2" />
     </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
+      <deployment type="dockerfile" />
+      <method v="2" />
+    </configuration>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -97,6 +102,17 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="GitHub.CommitStatus" />
+      </list>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="fix naming" />
@@ -115,7 +131,8 @@
     <MESSAGE value="Added Docker configs" />
     <MESSAGE value="add fly configs" />
     <MESSAGE value="Updated docker &amp; fly configs" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated docker &amp; fly configs" />
+    <MESSAGE value="added ginmode as release" />
+    <option name="LAST_COMMIT_MESSAGE" value="added ginmode as release" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
