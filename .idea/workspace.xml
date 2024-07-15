@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d9fd4bb3-42d6-44d9-9812-7461a3a0f874" name="Changes" comment="added ginmode as release">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-    </list>
+    <list default="true" id="d9fd4bb3-42d6-44d9-9812-7461a3a0f874" name="Changes" comment="added CA certs to the container" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -132,7 +129,8 @@
     <MESSAGE value="add fly configs" />
     <MESSAGE value="Updated docker &amp; fly configs" />
     <MESSAGE value="added ginmode as release" />
-    <option name="LAST_COMMIT_MESSAGE" value="added ginmode as release" />
+    <MESSAGE value="added CA certs to the container" />
+    <option name="LAST_COMMIT_MESSAGE" value="added CA certs to the container" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

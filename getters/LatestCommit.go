@@ -57,7 +57,7 @@ func GetMostRecentCommit(client *githubv4.Client) (MostRecentCommit, error) {
 											MessageBody     string
 										}
 									} `graphql:"edges"`
-								} `graphql:"history(first: 1)"` // Fetch only the most recent commit
+								} `graphql:"history(first: 5)"`
 							} `graphql:"... on Commit"`
 						}
 					}
@@ -84,7 +84,7 @@ func GetMostRecentCommit(client *githubv4.Client) (MostRecentCommit, error) {
 
 		commit := repo.DefaultBranchRef.Target.Commit.History.Edges[0].Node
 
-		if commit.Additions > 5 && commit.Deletions > 5 && commit.CommittedDate.After(mostRecentCommit.CommittedDate) {
+		if commit.Additions > 5 && commit.CommittedDate.After(mostRecentCommit.CommittedDate) { // Get the most recent non-bs commit
 			languages := make([]Language, len(repo.Languages.Edges))
 			for i, languageEdge := range repo.Languages.Edges {
 				languages[i] = Language{
