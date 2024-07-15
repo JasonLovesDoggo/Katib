@@ -15,11 +15,11 @@ type MostRecentCommit struct {
 	Deletions       int
 	CommitUrl       githubv4.URI
 	CommittedDate   time.Time
-	Oid             githubv4.GitObjectID
 	MessageHeadline string
 	MessageBody     string
 	URL             githubv4.URI
 	Languages       []Language
+	AbbreviatedOid  string
 }
 
 type Language struct {
@@ -53,14 +53,13 @@ func GetMostRecentCommit(client *githubv4.Client) (MostRecentCommit, error) {
 								History struct {
 									Edges []struct {
 										Node struct {
+											AbbreviatedOid  string
 											Additions       int
 											Deletions       int
 											CommitUrl       githubv4.URI
 											CommittedDate   time.Time
-											Oid             githubv4.GitObjectID
 											MessageHeadline string
 											MessageBody     string
-											URL             githubv4.URI
 										}
 									} `graphql:"edges"`
 								} `graphql:"history(first:5)"`
@@ -68,7 +67,7 @@ func GetMostRecentCommit(client *githubv4.Client) (MostRecentCommit, error) {
 						}
 					}
 				}
-			} `graphql:"repositories(first:100,privacy:PUBLIC)"`
+			} `graphql:"repositories(first:20,privacy:PUBLIC)"`
 		} `graphql:"user(login: $username)"`
 	}
 
@@ -87,12 +86,11 @@ func GetMostRecentCommit(client *githubv4.Client) (MostRecentCommit, error) {
 	fmt.Println("Repositories:")
 	for _, repo := range query.User.Repositories.Nodes {
 		if !slices.Contains(excludedRepos, repo.Name) {
-			fmt.Println("Repo:", repo.Name)
-
 			for _, commit := range repo.DefaultBranchRef.Target.Commit.History.Edges {
 				if commit.Node.Additions > 5 && commit.Node.Deletions > 5 {
 					if commit.Node.CommittedDate.After(mostRecentCommit.CommittedDate) { // Stack approach
 						var languages []Language
+						fmt.Println("Languages", repo.Languages)
 						if repo.Languages.Edges != nil {
 							languages := make([]Language, len(repo.Languages.Edges))
 							for i, languageEdge := range repo.Languages.Edges {
@@ -103,9 +101,8 @@ func GetMostRecentCommit(client *githubv4.Client) (MostRecentCommit, error) {
 							}
 						}
 
+						fmt.Println("Commit:", commit.Node)
 						mostRecentCommit = MostRecentCommit{
-							Oid:             commit.Node.Oid,
-							URL:             commit.Node.URL,
 							CommittedDate:   commit.Node.CommittedDate,
 							Additions:       commit.Node.Additions,
 							Deletions:       commit.Node.Deletions,
@@ -113,6 +110,7 @@ func GetMostRecentCommit(client *githubv4.Client) (MostRecentCommit, error) {
 							MessageHeadline: commit.Node.MessageHeadline,
 							MessageBody:     commit.Node.MessageBody,
 							Languages:       languages,
+							AbbreviatedOid:  commit.Node.AbbreviatedOid,
 						}
 					}
 				}
@@ -120,11 +118,5 @@ func GetMostRecentCommit(client *githubv4.Client) (MostRecentCommit, error) {
 		}
 	}
 
-	fmt.Println("Most Recent Commit:")
-	fmt.Println("OID:", mostRecentCommit.Oid)
-	fmt.Println("Message:", mostRecentCommit.MessageHeadline)
-	fmt.Println("URL:", mostRecentCommit.URL)
-	fmt.Println("Committed Date:", mostRecentCommit.CommittedDate)
 	return mostRecentCommit, nil
-	// todo: returning
 }
