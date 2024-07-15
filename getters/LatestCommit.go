@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-var excludedRepos = []string{"JasonLovesDoggo", "notes"} // List of repos to exclude from the search (constant)
+var excludedRepos = []string{"JasonLovesDoggo/JasonLovesDoggo", "JasonLovesDoggo/notes"} // List of repos to exclude from the search (constant)
 
 type MostRecentCommit struct {
 	Repo            string         `json:"repo"`
@@ -42,8 +42,8 @@ func GetMostRecentCommit(client *githubv4.Client) (MostRecentCommit, error) {
 		User struct {
 			Repositories struct {
 				Nodes []struct {
-					Name      string
-					Languages struct {
+					NameWithOwner string
+					Languages     struct {
 						Edges []struct {
 							Size int
 							Node struct {
@@ -88,13 +88,13 @@ func GetMostRecentCommit(client *githubv4.Client) (MostRecentCommit, error) {
 	mostRecentCommit := MostRecentCommit{MessageHeadline: "Something went wrong", MessageBody: "Please try again later", Languages: []Language{}, CommittedDate: time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)} // Set to a date in the past
 
 	for _, repo := range query.User.Repositories.Nodes {
-		if slices.Contains(excludedRepos, repo.Name) {
+		if slices.Contains(excludedRepos, repo.NameWithOwner) {
 			continue // Skip excluded repositories
 		}
 
 		for _, edge := range repo.DefaultBranchRef.Target.Commit.History.Edges {
 			commit := edge.Node
-			if repo.Name == mostRecentCommit.Repo && commit.CommittedDate.Before(mostRecentCommit.CommittedDate) {
+			if repo.NameWithOwner == mostRecentCommit.Repo && commit.CommittedDate.Before(mostRecentCommit.CommittedDate) {
 				mostRecentCommit.ParentCommits = append(mostRecentCommit.ParentCommits, parentCommit{
 					Additions:       commit.Additions,
 					Deletions:       commit.Deletions,
@@ -115,7 +115,7 @@ func GetMostRecentCommit(client *githubv4.Client) (MostRecentCommit, error) {
 					}
 				}
 				mostRecentCommit = MostRecentCommit{
-					Repo:            repo.Name,
+					Repo:            repo.NameWithOwner,
 					Additions:       commit.Additions,
 					Deletions:       commit.Deletions,
 					CommitUrl:       commit.CommitUrl.String(), // Convert to string
