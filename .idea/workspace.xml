@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d9fd4bb3-42d6-44d9-9812-7461a3a0f874" name="Changes" comment="fix randomness &amp; Improve features with &quot;Previous commits&quot;">
-      <change beforePath="$PROJECT_DIR$/getters/LatestCommit.go" beforeDir="false" afterPath="$PROJECT_DIR$/getters/LatestCommit.go" afterDir="false" />
+    <list default="true" id="d9fd4bb3-42d6-44d9-9812-7461a3a0f874" name="Changes" comment="Updated README">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -134,7 +135,9 @@
     <MESSAGE value="added CA certs to the container" />
     <MESSAGE value="fix randomness" />
     <MESSAGE value="fix randomness &amp; Improve features with &quot;Previous commits&quot;" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix randomness &amp; Improve features with &quot;Previous commits&quot;" />
+    <MESSAGE value="changed name to name with owner (Katib vs JasonLovesDoggo/Katib)" />
+    <MESSAGE value="Updated README" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated README" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

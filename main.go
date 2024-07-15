@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-var cacheTime = time.Minute * 3 // Cache time in minutes todo: calculate the exact amount needed based off of my quota
+var cacheTime = time.Second * 30 // Cache time in seconds (this leaves me with using around 1/41st of my rate limit)
 func main() {
 	store := persistence.NewInMemoryStore(time.Second)
 
