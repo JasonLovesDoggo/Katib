@@ -12,6 +12,7 @@ primary_region = 'yyz'
 
 [env]
   PORT = '8080'
+  GIN_MODE = 'release'
 
 [http_service]
   internal_port = 8080

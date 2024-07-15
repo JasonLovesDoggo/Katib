@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d9fd4bb3-42d6-44d9-9812-7461a3a0f874" name="Changes" comment="add fly configs">
-      <change beforePath="$PROJECT_DIR$/.dockerignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fly.toml" beforeDir="false" />
+    <list default="true" id="d9fd4bb3-42d6-44d9-9812-7461a3a0f874" name="Changes" comment="Updated docker &amp; fly configs">
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,7 +114,8 @@
     <MESSAGE value="added healthcheck" />
     <MESSAGE value="Added Docker configs" />
     <MESSAGE value="add fly configs" />
-    <option name="LAST_COMMIT_MESSAGE" value="add fly configs" />
+    <MESSAGE value="Updated docker &amp; fly configs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated docker &amp; fly configs" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
