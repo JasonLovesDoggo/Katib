@@ -1,4 +1,4 @@
-module backend
+module katib
 
 go 1.22
 
