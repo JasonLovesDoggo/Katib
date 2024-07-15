@@ -26,17 +26,17 @@ a curated showcase of your coding expertise.
 `GET /commits/latest`
 ```json5
 {
-  "repo": "Katib",
-  "additions": 23,
-  "deletions": 5,
-  "commitUrl": "https://github.com/JasonLovesDoggo/Katib/commit/456673b8205d0be3579a6c2a3651fa20c502dc18",
-  "committedDate": "2024-07-15T15:50:17Z",
-  "oid": "456673b",
-  "messageHeadline": "added CA certs to the container",
+  "repo": "JasonLovesDoggo/Katib",
+  "additions": 9,
+  "deletions": 10,
+  "commitUrl": "https://github.com/JasonLovesDoggo/Katib/commit/3f3a28e668c5edd69ec21568c624b5d870ef364f",
+  "committedDate": "2024-07-15T16:28:59Z",
+  "oid": "3f3a28e",
+  "messageHeadline": "changed name to name with owner (Katib vs JasonLovesDoggo/Katib)",
   "messageBody": "",
   "languages": [
     {
-      "size": 4839,
+      "size": 6161,
       "name": "Go",
       "color": "#00ADD8"
     },
@@ -48,25 +48,32 @@ a curated showcase of your coding expertise.
   ],
   "parentCommits": [
     {
+      "additions": 103,
+      "deletions": 67,
+      "commitUrl": "https://github.com/JasonLovesDoggo/Katib/commit/235777f7cb4690423e2997844cc34fdb696d16ab",
+      "committedDate": "2024-07-15T16:25:10Z",
+      "messageHeadline": "fix randomness & Improve features with \"Previous commits\""
+    },
+    {
+      "additions": 5,
+      "deletions": 7,
+      "commitUrl": "https://github.com/JasonLovesDoggo/Katib/commit/3634b24246ef8aef9d0a34d821d7bccd9c3538d2",
+      "committedDate": "2024-07-15T16:03:12Z",
+      "messageHeadline": "fix randomness"
+    },
+    {
+      "additions": 23,
+      "deletions": 5,
+      "commitUrl": "https://github.com/JasonLovesDoggo/Katib/commit/456673b8205d0be3579a6c2a3651fa20c502dc18",
+      "committedDate": "2024-07-15T15:50:17Z",
+      "messageHeadline": "added CA certs to the container"
+    },
+    {
       "additions": 5,
       "deletions": 6,
       "commitUrl": "https://github.com/JasonLovesDoggo/Katib/commit/bab95410344f1962f2659409fca0dc2adf039f3e",
       "committedDate": "2024-07-15T15:43:37Z",
       "messageHeadline": "added ginmode as release"
-    },
-    {
-      "additions": 38,
-      "deletions": 11,
-      "commitUrl": "https://github.com/JasonLovesDoggo/Katib/commit/0be32bf7cb4c5170117a9e0cb91e8e23e8725288",
-      "committedDate": "2024-07-15T15:42:57Z",
-      "messageHeadline": "Updated docker & fly configs"
-    },
-    {
-      "additions": 38,
-      "deletions": 0,
-      "commitUrl": "https://github.com/JasonLovesDoggo/Katib/commit/45b97d56cbd8b43120193816d8760c2337b66104",
-      "committedDate": "2024-07-15T15:32:22Z",
-      "messageHeadline": "add fly configs"
     }
   ]
 }
