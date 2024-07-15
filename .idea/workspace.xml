@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d9fd4bb3-42d6-44d9-9812-7461a3a0f874" name="Changes" comment="Rename project">
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+    <list default="true" id="d9fd4bb3-42d6-44d9-9812-7461a3a0f874" name="Changes" comment="Some logging">
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/getters/LatestCommit.go" beforeDir="false" afterPath="$PROJECT_DIR$/getters/LatestCommit.go" afterDir="false" />
     </list>
@@ -94,7 +94,10 @@
     <MESSAGE value="A working version!" />
     <MESSAGE value="Added caching support" />
     <MESSAGE value="Rename project" />
-    <option name="LAST_COMMIT_MESSAGE" value="Rename project" />
+    <MESSAGE value="Filtering/sorting for commits" />
+    <MESSAGE value=".name? ig" />
+    <MESSAGE value="Some logging" />
+    <option name="LAST_COMMIT_MESSAGE" value="Some logging" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

@@ -11,42 +11,37 @@ import (
 var excludedRepos = []string{"JasonLovesDoggo", "notes"} // List of repos to exclude from the search (constant)
 
 type MostRecentCommit struct {
-	Additions       int
-	Deletions       int
-	CommitUrl       githubv4.URI
-	CommittedDate   time.Time
-	MessageHeadline string
-	MessageBody     string
-	URL             githubv4.URI
-	Languages       []Language
-	AbbreviatedOid  string
+	Additions       int        `json:"additions"`
+	Deletions       int        `json:"deletions"`
+	CommitUrl       string     `json:"commitUrl"`
+	CommittedDate   time.Time  `json:"committedDate"`
+	Oid             string     `json:"oid"`
+	MessageHeadline string     `json:"messageHeadline"`
+	MessageBody     string     `json:"messageBody"`
+	Languages       []Language `json:"languages"`
 }
 
 type Language struct {
-	Size int
-	Node struct {
-		Name  string
-		Color string
-	}
+	Size  int    `json:"size"`
+	Name  string `json:"name"`
+	Color string `json:"color"`
 }
 
 func GetMostRecentCommit(client *githubv4.Client) (MostRecentCommit, error) {
-	// language=GraphQL
 	var query struct {
 		User struct {
 			Repositories struct {
 				Nodes []struct {
-					Name           string
-					StargazerCount int
-					Languages      struct {
-						Edges []struct { // Add Edges array
+					Name      string
+					Languages struct {
+						Edges []struct {
 							Size int
-							Node struct { // Node struct inside Edges
+							Node struct {
 								Name  string
 								Color string
 							}
 						}
-					} `graphql:"languages(first:5)"`
+					} `graphql:"languages(first: 5)"`
 					DefaultBranchRef struct {
 						Target struct {
 							Commit struct {
@@ -62,12 +57,12 @@ func GetMostRecentCommit(client *githubv4.Client) (MostRecentCommit, error) {
 											MessageBody     string
 										}
 									} `graphql:"edges"`
-								} `graphql:"history(first:5)"`
+								} `graphql:"history(first: 1)"` // Fetch only the most recent commit
 							} `graphql:"... on Commit"`
 						}
 					}
 				}
-			} `graphql:"repositories(first:20,privacy:PUBLIC)"`
+			} `graphql:"repositories(first: 20, privacy: PUBLIC)"`
 		} `graphql:"user(login: $username)"`
 	}
 
@@ -77,43 +72,37 @@ func GetMostRecentCommit(client *githubv4.Client) (MostRecentCommit, error) {
 
 	err := client.Query(context.Background(), &query, variables)
 	if err != nil {
-		fmt.Println(err)
-		return MostRecentCommit{}, err
+		return MostRecentCommit{}, fmt.Errorf("GraphQL query error: %v", err)
 	}
 
-	//mostRecentCommitTime := time.Time{} // Initialize to zero time
 	mostRecentCommit := MostRecentCommit{}
-	fmt.Println("Repositories:")
-	for _, repo := range query.User.Repositories.Nodes {
-		if !slices.Contains(excludedRepos, repo.Name) {
-			for _, commit := range repo.DefaultBranchRef.Target.Commit.History.Edges {
-				if commit.Node.Additions > 5 && commit.Node.Deletions > 5 {
-					if commit.Node.CommittedDate.After(mostRecentCommit.CommittedDate) { // Stack approach
-						var languages []Language
-						fmt.Println("Languages", repo.Languages)
-						if repo.Languages.Edges != nil {
-							languages := make([]Language, len(repo.Languages.Edges))
-							for i, languageEdge := range repo.Languages.Edges {
-								languages[i] = Language{
-									Size: languageEdge.Size,
-									Node: languageEdge.Node,
-								}
-							}
-						}
 
-						fmt.Println("Commit:", commit.Node)
-						mostRecentCommit = MostRecentCommit{
-							CommittedDate:   commit.Node.CommittedDate,
-							Additions:       commit.Node.Additions,
-							Deletions:       commit.Node.Deletions,
-							CommitUrl:       commit.Node.CommitUrl,
-							MessageHeadline: commit.Node.MessageHeadline,
-							MessageBody:     commit.Node.MessageBody,
-							Languages:       languages,
-							AbbreviatedOid:  commit.Node.AbbreviatedOid,
-						}
-					}
+	for _, repo := range query.User.Repositories.Nodes {
+		if slices.Contains(excludedRepos, repo.Name) {
+			continue // Skip excluded repositories
+		}
+
+		commit := repo.DefaultBranchRef.Target.Commit.History.Edges[0].Node
+
+		if commit.Additions > 5 && commit.Deletions > 5 && commit.CommittedDate.After(mostRecentCommit.CommittedDate) {
+			languages := make([]Language, len(repo.Languages.Edges))
+			for i, languageEdge := range repo.Languages.Edges {
+				languages[i] = Language{
+					Size:  languageEdge.Size,
+					Name:  languageEdge.Node.Name,
+					Color: languageEdge.Node.Color,
 				}
+			}
+
+			mostRecentCommit = MostRecentCommit{
+				Additions:       commit.Additions,
+				Deletions:       commit.Deletions,
+				CommitUrl:       commit.CommitUrl.String(), // Convert to string
+				CommittedDate:   commit.CommittedDate,
+				Oid:             commit.AbbreviatedOid,
+				MessageHeadline: commit.MessageHeadline,
+				MessageBody:     commit.MessageBody,
+				Languages:       languages,
 			}
 		}
 	}
