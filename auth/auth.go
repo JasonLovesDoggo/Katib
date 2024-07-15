@@ -14,7 +14,7 @@ var Client *githubv4.Client
 
 func init() {
 	err := godotenv.Load()
-	if err != nil {
+	if err != nil && os.Getenv("GITHUB_TOKEN") == "" { // If the .env file is not found and the GITHUB_TOKEN is not set
 		log.Fatal("Error loading .env file")
 	}
 

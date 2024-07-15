@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d9fd4bb3-42d6-44d9-9812-7461a3a0f874" name="Changes" comment="fixed line seperators for README">
-      <change afterPath="$PROJECT_DIR$/routes/healthcheck.go" afterDir="false" />
+    <list default="true" id="d9fd4bb3-42d6-44d9-9812-7461a3a0f874" name="Changes" comment="added healthcheck">
+      <change afterPath="$PROJECT_DIR$/.dockerignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/404.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth/auth.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -113,7 +116,8 @@
     <MESSAGE value="Fix a null pointer" />
     <MESSAGE value="added sexy readme" />
     <MESSAGE value="fixed line seperators for README" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed line seperators for README" />
+    <MESSAGE value="added healthcheck" />
+    <option name="LAST_COMMIT_MESSAGE" value="added healthcheck" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
