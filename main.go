@@ -16,5 +16,6 @@ func main() {
 
 	r := gin.Default()
 	r.GET("/commits/latest", cache.CachePage(store, cacheTime, routes.LatestCommit))
+	r.GET("/healthcheck", routes.HealthCheck)
 	r.Run()
 }
