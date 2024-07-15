@@ -1,12 +1,17 @@
-# fly.toml app configuration file generated for backend-autumn-waterfall-1739 on 2024-07-15T11:30:50-04:00
+# fly.toml app configuration file generated for katib on 2024-07-15T11:38:27-04:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'backend-autumn-waterfall-1739'
+app = 'katib'
 primary_region = 'yyz'
 
 [build]
+  [build.args]
+    GO_VERSION = '1.22'
+
+[env]
+  PORT = '8080'
 
 [http_service]
   internal_port = 8080
@@ -18,3 +23,4 @@ primary_region = 'yyz'
 
 [[vm]]
   size = 'shared-cpu-1x'
+  memory = 256

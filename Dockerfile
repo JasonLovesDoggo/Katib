@@ -1,1 +1,17 @@
-# Build stageFROM golang:1.22@sha256:0b55ab82ac2a54a6f8f85ec8b943b9e470c39e32c109b766bbc1b801f3fa8d3b     as builderWORKDIR /srcCOPY . .RUN go mod downloadRUN CGO_ENABLED=0 GOOS=linux go build -o ./katib -tags=jsoniter# Run stageFROM alpine:latestCOPY --from=builder /src/katib /katibCOPY assets /assetsEXPOSE 8080ENV GIN_MODE=release#USER nonroot:nonrootCMD ["/katib"]# note: curl is not installed by default in alpine so we use wgetHEALTHCHECK --interval=10s --timeout=3s --start-period=5s --retries=3 CMD wget -S -O - http://0.0.0.0:8080/healthcheck || exit 1LABEL maintainer="Jason Cameron katib@jasoncameron.dev"LABEL org.opencontainers.image.source="https://github.com/Jasonlovesdoggo/katib"LABEL description="A tool to get your most recent GitHub contributions"
+LABEL maintainer="Jason Cameron katib@jasoncameron.dev"
+LABEL org.opencontainers.image.source="https://github.com/Jasonlovesdoggo/katib"
+LABEL description="A tool to get your most recent GitHub contributions"
+ARG GO_VERSION=1
+FROM golang:${GO_VERSION}-bookworm as builder
+
+WORKDIR /usr/src/app
+COPY go.mod go.sum ./
+RUN go mod download && go mod verify
+COPY . .
+RUN go build -v -o /katib .
+
+
+FROM debian:bookworm
+RUN sudo apt-get install -y ca-certificates
+COPY --from=builder /katib /usr/local/bin/
+CMD ["katib"]
