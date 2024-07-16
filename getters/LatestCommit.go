@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-var excludedRepos = []string{"JasonLovesDoggo/JasonLovesDoggo", "JasonLovesDoggo/notes"} // List of repos to exclude from the search (constant)
+var excludedRepos = []string{"JasonLovesDoggo/JasonLovesDoggo", "JasonLovesDoggo/notes", "JasonLovesDoggo/status"} // List of repos to exclude from the search (constant)
 
 type MostRecentCommit struct {
 	Repo            string         `json:"repo"`
