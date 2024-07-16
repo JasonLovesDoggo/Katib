@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-contrib/cache"
 	"github.com/gin-contrib/cache/persistence"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"katib/routes"
 	"time"
@@ -15,6 +16,7 @@ func main() {
 	// Use client...
 
 	r := gin.Default()
+	r.Use(cors.Default())
 	r.NoRoute(routes.NotFoundHandler)
 	r.GET("/healthcheck", routes.HealthCheck)
 	r.GET("/commits/latest", cache.CachePage(store, cacheTime, routes.LatestCommit))
