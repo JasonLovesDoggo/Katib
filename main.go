@@ -5,7 +5,7 @@ import (
 	"github.com/gin-contrib/cache/persistence"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"katib/routes"
+	"github.com/jasonlovesdoggo/katib/routes"
 	"time"
 )
 

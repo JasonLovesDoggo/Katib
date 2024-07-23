@@ -1,4 +1,4 @@
-module katib
+module github.com/jasonlovesdoggo/katib
 
 go 1.22
 

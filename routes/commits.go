@@ -2,8 +2,8 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	"katib/auth"
-	"katib/getters"
+	"github.com/jasonlovesdoggo/katib/auth"
+	"github.com/jasonlovesdoggo/katib/getters"
 )
 
 func LatestCommit(c *gin.Context) {
