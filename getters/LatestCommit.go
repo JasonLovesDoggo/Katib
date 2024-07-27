@@ -3,12 +3,11 @@ package getters
 import (
 	"context"
 	"fmt"
+	"github.com/jasonlovesdoggo/katib/auth"
 	"github.com/shurcooL/githubv4"
 	"slices"
 	"time"
 )
-
-var excludedRepos = []string{"JasonLovesDoggo/JasonLovesDoggo", "JasonLovesDoggo/notes", "JasonLovesDoggo/status"} // List of repos to exclude from the search (constant)
 
 type MostRecentCommit struct {
 	Repo            string         `json:"repo"`
@@ -77,7 +76,7 @@ func GetMostRecentCommit(client *githubv4.Client) (MostRecentCommit, error) {
 	}
 
 	variables := map[string]interface{}{
-		"username": githubv4.String("JasonLovesDoggo"),
+		"username": githubv4.String(auth.USERNAME),
 	}
 
 	err := client.Query(context.Background(), &query, variables)
@@ -88,7 +87,7 @@ func GetMostRecentCommit(client *githubv4.Client) (MostRecentCommit, error) {
 	mostRecentCommit := MostRecentCommit{MessageHeadline: "Something went wrong", MessageBody: "Please try again later", Languages: []Language{}, CommittedDate: time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)} // Set to a date in the past
 
 	for _, repo := range query.User.Repositories.Nodes {
-		if slices.Contains(excludedRepos, repo.NameWithOwner) {
+		if slices.Contains(auth.ExcludedRepos, repo.NameWithOwner) {
 			continue // Skip excluded repositories
 		}
 
