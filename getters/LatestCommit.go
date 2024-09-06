@@ -25,7 +25,7 @@ type MostRecentCommit struct {
 type parentCommit struct {
 	Additions       int       `json:"additions"`
 	Deletions       int       `json:"deletions"`
-	CommitUrl       string    `json:"commitUrl"`
+	CommitUrl       string    `json:"commit~Url"`
 	CommittedDate   time.Time `json:"committedDate"`
 	MessageHeadline string    `json:"messageHeadline"`
 }
@@ -76,7 +76,7 @@ func GetMostRecentCommit(client *githubv4.Client) (MostRecentCommit, error) {
 	}
 
 	variables := map[string]interface{}{
-		"username": githubv4.String(auth.USERNAME),
+		"username": githubv4.String(auth.Username),
 	}
 
 	err := client.Query(context.Background(), &query, variables)

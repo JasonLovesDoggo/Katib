@@ -101,7 +101,7 @@ func GetTotalStats(client *githubv4.Client) (StatsData, error) {
 	}
 
 	variables := map[string]interface{}{
-		"username": githubv4.String(auth.USERNAME),
+		"username": githubv4.String(auth.Username),
 		"cursor":   (*githubv4.String)(nil), // Start from the beginning
 	}
 
@@ -119,7 +119,7 @@ func GetTotalStats(client *githubv4.Client) (StatsData, error) {
 			//continue // Skip excluded repositories
 
 			for _, commit := range repo.DefaultBranchRef.Target.Commit.History.Nodes {
-				if commit.Author.User.Login == auth.USERNAME { // Filter by the target user
+				if commit.Author.User.Login == githubv4.String(auth.Username) { // Filter by the target user
 					totalCommits++
 					totalAdditions += uint32(commit.Additions)
 					totalDeletions += uint32(commit.Deletions)
