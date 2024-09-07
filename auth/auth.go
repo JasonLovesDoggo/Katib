@@ -8,6 +8,7 @@ import (
 	"golang.org/x/oauth2"
 	"log"
 	"os"
+	"testing"
 )
 
 var (
@@ -18,7 +19,7 @@ var (
 )
 
 func init() {
-	err := godotenv.Load("../.env", ".env")
+	err := godotenv.Load("../.env")
 	if err != nil { // If the .env file is not found
 		log.Fatalf("Error loading .env file: %v", err)
 	}
@@ -27,13 +28,19 @@ func init() {
 			log.Fatalf("Error: %s is not set. Please set it in your .env file", token)
 		}
 	}
+	if !testing.Testing() {
 
-	Username = os.Getenv("USERNAME")
+		Username = os.Getenv("USERNAME")
+		ExcludedRepos, err = convertExcludedReposToArray(os.Getenv("EXCLUDED_REPOS"))
+		if err != nil {
+			log.Fatalf("Error: %v", err)
+		}
 
-	fmt.Println("Initializing client...")
-	src := oauth2.StaticTokenSource(
-		&oauth2.Token{AccessToken: os.Getenv("GITHUB_TOKEN")},
-	)
-	httpClient := oauth2.NewClient(context.Background(), src)
-	Client = githubv4.NewClient(httpClient)
+		fmt.Println("Initializing client...")
+		src := oauth2.StaticTokenSource(
+			&oauth2.Token{AccessToken: os.Getenv("GITHUB_TOKEN")},
+		)
+		httpClient := oauth2.NewClient(context.Background(), src)
+		Client = githubv4.NewClient(httpClient)
+	}
 }
