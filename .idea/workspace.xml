@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d9fd4bb3-42d6-44d9-9812-7461a3a0f874" name="Changes" comment="Add streak endpoint and update README with new features">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/getters/LatestCommit.go" beforeDir="false" afterPath="$PROJECT_DIR$/getters/LatestCommit.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-    </list>
+    <list default="true" id="d9fd4bb3-42d6-44d9-9812-7461a3a0f874" name="Changes" comment="Add v2 endpoint for retrieving commits list with statistics" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -185,7 +181,8 @@
     <MESSAGE value="changed name to name with owner (Katib vs JasonLovesDoggo/Katib)" />
     <MESSAGE value="Updated README" />
     <MESSAGE value="Add streak endpoint and update README with new features" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add streak endpoint and update README with new features" />
+    <MESSAGE value="Add v2 endpoint for retrieving commits list with statistics" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add v2 endpoint for retrieving commits list with statistics" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
