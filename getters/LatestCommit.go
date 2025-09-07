@@ -3,9 +3,10 @@ package getters
 import (
 	"context"
 	"fmt"
-	"github.com/shurcooL/githubv4"
 	"slices"
 	"time"
+
+	"github.com/shurcooL/githubv4"
 )
 
 var excludedRepos = []string{"JasonLovesDoggo/JasonLovesDoggo", "JasonLovesDoggo/notes", "JasonLovesDoggo/status"} // List of repos to exclude from the search (constant)
@@ -293,19 +294,7 @@ func GetCommitsList(client *githubv4.Client, limit int) (CommitsListResponse, er
 		}
 	}
 
-	// Convert language map to sorted slice
-	var languages []Language
-	for _, lang := range languageMap {
-		languages = append(languages, lang)
-	}
-	// Sort languages by size descending
-	for i := 0; i < len(languages)-1; i++ {
-		for j := i + 1; j < len(languages); j++ {
-			if languages[j].Size > languages[i].Size {
-				languages[i], languages[j] = languages[j], languages[i]
-			}
-		}
-	}
+	languages := normalizeLanguages(languageMap)
 
 	// Apply limit
 	limitedCommits := allCommits
@@ -322,4 +311,56 @@ func GetCommitsList(client *githubv4.Client, limit int) (CommitsListResponse, er
 	response.Stats.TotalCommits = len(allCommits)
 
 	return response, nil
+}
+
+func normalizeLanguages(languageMap map[string]Language) []Language {
+	// Convert language map to sorted slice
+	var languages []Language
+	totalLanguageSize := 0
+	for _, lang := range languageMap {
+		languages = append(languages, lang)
+		totalLanguageSize += lang.Size
+	}
+
+	// Sort languages by size descending
+	for i := 0; i < len(languages)-1; i++ {
+		for j := i + 1; j < len(languages); j++ {
+			if languages[j].Size > languages[i].Size {
+				languages[i], languages[j] = languages[j], languages[i]
+			}
+		}
+	}
+
+	// Normalize if one language dominates 80%+
+	if len(languages) > 1 && totalLanguageSize > 0 {
+		dominantPercentage := float64(languages[0].Size) / float64(totalLanguageSize)
+		if dominantPercentage > 0.8 {
+			// Scale down the dominant language by 40% and boost the second language
+			redistributed := int(float64(languages[0].Size) * 0.4)
+			languages[0].Size = languages[0].Size - redistributed
+
+			// Give half of redistributed to the 2nd language, rest to others
+			secondBonus := redistributed / 2
+			languages[1].Size += secondBonus
+			remainingRedistributed := redistributed - secondBonus
+
+			// Distribute remaining among all other languages (excluding top 2)
+			if len(languages) > 2 && remainingRedistributed > 0 {
+				bonusPerLang := remainingRedistributed / (len(languages) - 2)
+				remainder := remainingRedistributed % (len(languages) - 2)
+
+				for i := 2; i < len(languages); i++ {
+					languages[i].Size += bonusPerLang
+					if i-2 < remainder {
+						languages[i].Size += 1
+					}
+				}
+			} else if len(languages) == 2 {
+				// If only 2 languages, give all remaining to the 2nd
+				languages[1].Size += remainingRedistributed
+			}
+		}
+	}
+
+	return languages
 }
