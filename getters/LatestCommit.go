@@ -4,12 +4,23 @@ import (
 	"context"
 	"fmt"
 	"slices"
+	"strings"
 	"time"
 
 	"github.com/shurcooL/githubv4"
 )
 
-var excludedRepos = []string{"JasonLovesDoggo/JasonLovesDoggo", "JasonLovesDoggo/notes", "JasonLovesDoggo/status"} // List of repos to exclude from the search (constant)
+func getExcludedRepos(username string) []string {
+	// Only exclude profile/notes/status repos for the specific user
+	if username == "jasonlovesdoggo" {
+		return []string{
+			"jasonlovesdoggo/jasonlovesdoggo",
+			"jasonlovesdoggo/notes",
+			"jasonlovesdoggo/status",
+		}
+	}
+	return []string{}
+}
 
 type MostRecentCommit struct {
 	Repo            string         `json:"repo"`
@@ -59,7 +70,7 @@ type CommitsListResponse struct {
 	} `json:"stats"`
 }
 
-func GetMostRecentCommit(client *githubv4.Client) (MostRecentCommit, error) {
+func GetMostRecentCommit(client *githubv4.Client, username string) (MostRecentCommit, error) {
 	var query struct {
 		User struct {
 			Repositories struct {
@@ -104,16 +115,17 @@ func GetMostRecentCommit(client *githubv4.Client) (MostRecentCommit, error) {
 	}
 
 	variables := map[string]interface{}{
-		"username": githubv4.String("JasonLovesDoggo"),
+		"username": githubv4.String(username),
 	}
 
 	err := client.Query(context.Background(), &query, variables)
 	if err != nil {
+		fmt.Printf("GraphQL query error for user %s: %v\n", username, err)
 		return MostRecentCommit{}, fmt.Errorf("GraphQL query error: %v", err)
 	}
 
 	mostRecentCommit := MostRecentCommit{MessageHeadline: "Something went wrong", MessageBody: "Please try again later", Languages: []Language{}, CommittedDate: time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)} // Set to a date in the past
-
+	excludedRepos := getExcludedRepos(username)
 	for _, repo := range query.User.Repositories.Nodes {
 		if slices.Contains(excludedRepos, repo.NameWithOwner) {
 			continue // Skip excluded repositories
@@ -122,8 +134,9 @@ func GetMostRecentCommit(client *githubv4.Client) (MostRecentCommit, error) {
 		for _, edge := range repo.DefaultBranchRef.Target.Commit.History.Edges {
 			commit := edge.Node
 
-			// Skip commits not authored by JasonLovesDoggo
-			if commit.Author.User.Login != "JasonLovesDoggo" {
+			// Skip commits not authored by the specified username
+			if !strings.EqualFold(commit.Author.User.Login, username) {
+				fmt.Print(" - Skipping commit not by user: " + commit.Author.User.Login + " for user " + username + "\n")
 				continue
 			}
 
@@ -137,7 +150,7 @@ func GetMostRecentCommit(client *githubv4.Client) (MostRecentCommit, error) {
 				})
 			}
 
-			if commit.Additions > 5 && commit.CommittedDate.After(mostRecentCommit.CommittedDate) { // Get the most recent non-bs commit
+			if commit.CommittedDate.After(mostRecentCommit.CommittedDate) { // Get the most recent commit
 				fmt.Print(" - Replacing commit: " + mostRecentCommit.CommittedDate.String())
 				languages := make([]Language, len(repo.Languages.Edges))
 				for i, languageEdge := range repo.Languages.Edges {
@@ -165,7 +178,7 @@ func GetMostRecentCommit(client *githubv4.Client) (MostRecentCommit, error) {
 	return mostRecentCommit, nil
 }
 
-func GetCommitsList(client *githubv4.Client, limit int) (CommitsListResponse, error) {
+func GetCommitsList(client *githubv4.Client, username string, limit int) (CommitsListResponse, error) {
 	var query struct {
 		User struct {
 			Repositories struct {
@@ -210,7 +223,7 @@ func GetCommitsList(client *githubv4.Client, limit int) (CommitsListResponse, er
 	}
 
 	variables := map[string]interface{}{
-		"username": githubv4.String("JasonLovesDoggo"),
+		"username": githubv4.String(username),
 	}
 
 	err := client.Query(context.Background(), &query, variables)
@@ -223,6 +236,7 @@ func GetCommitsList(client *githubv4.Client, limit int) (CommitsListResponse, er
 	totalAdditions := 0
 	totalDeletions := 0
 
+	excludedRepos := getExcludedRepos(username)
 	for _, repo := range query.User.Repositories.Nodes {
 		if slices.Contains(excludedRepos, repo.NameWithOwner) {
 			continue
@@ -231,7 +245,7 @@ func GetCommitsList(client *githubv4.Client, limit int) (CommitsListResponse, er
 		// Collect language data from active repos
 		hasValidCommit := false
 		for _, edge := range repo.DefaultBranchRef.Target.Commit.History.Edges {
-			if edge.Node.Author.User.Login == "JasonLovesDoggo" && edge.Node.Additions > 5 {
+			if strings.EqualFold(edge.Node.Author.User.Login, username) {
 				hasValidCommit = true
 				break
 			}
@@ -259,15 +273,12 @@ func GetCommitsList(client *githubv4.Client, limit int) (CommitsListResponse, er
 		for _, edge := range repo.DefaultBranchRef.Target.Commit.History.Edges {
 			commit := edge.Node
 
-			// Skip commits not authored by JasonLovesDoggo
-			if commit.Author.User.Login != "JasonLovesDoggo" {
+			// Skip commits not authored by the specified username (case-insensitive)
+			if !strings.EqualFold(commit.Author.User.Login, username) {
 				continue
 			}
 
-			// Skip tiny commits
-			if commit.Additions <= 5 {
-				continue
-			}
+			// Accept all commits (removed size filtering)
 
 			totalAdditions += commit.Additions
 			totalDeletions += commit.Deletions

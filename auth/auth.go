@@ -26,3 +26,15 @@ func init() {
 	httpClient := oauth2.NewClient(context.Background(), src)
 	Client = githubv4.NewClient(httpClient)
 }
+
+func CreateClientFromPAT(pat string) (*githubv4.Client, error) {
+	if pat == "" {
+		return nil, fmt.Errorf("PAT token cannot be empty")
+	}
+
+	src := oauth2.StaticTokenSource(
+		&oauth2.Token{AccessToken: pat},
+	)
+	httpClient := oauth2.NewClient(context.Background(), src)
+	return githubv4.NewClient(httpClient), nil
+}

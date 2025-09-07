@@ -7,6 +7,7 @@ import (
 	"github.com/gin-contrib/cache/persistence"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/jasonlovesdoggo/katib/middleware"
 	"github.com/jasonlovesdoggo/katib/routes"
 )
 
@@ -18,8 +19,13 @@ func main() {
 	r.Use(cors.Default())
 	r.NoRoute(routes.NotFoundHandler)
 	r.GET("/healthcheck", routes.HealthCheck)
-	r.GET("/commits/latest", cache.CachePage(store, cacheTime, routes.LatestCommit))
-	r.GET("/v2/commits/latest", cache.CachePage(store, cacheTime, routes.LatestCommitsV2))
-	r.GET("/streak", cache.CachePage(store, cacheTime, routes.StreakInfo))
+
+	// Apply auth middleware to API routes
+	api := r.Group("/")
+	api.Use(middleware.AuthMiddleware())
+	api.GET("/commits/latest", cache.CachePage(store, cacheTime, routes.LatestCommit))
+	api.GET("/v2/commits/latest", cache.CachePage(store, cacheTime, routes.LatestCommitsV2))
+	api.GET("/streak", cache.CachePage(store, cacheTime, routes.StreakInfo))
+
 	r.Run()
 }

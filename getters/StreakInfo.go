@@ -13,7 +13,7 @@ type StreakInfo struct {
 	Active        bool `json:"active"`
 }
 
-func GetStreakInfo(client *githubv4.Client) (StreakInfo, error) {
+func GetStreakInfo(client *githubv4.Client, username string) (StreakInfo, error) {
 	var query struct {
 		User struct {
 			ContributionsCollection struct {
@@ -30,7 +30,7 @@ func GetStreakInfo(client *githubv4.Client) (StreakInfo, error) {
 	}
 
 	variables := map[string]interface{}{
-		"username": githubv4.String("JasonLovesDoggo"),
+		"username": githubv4.String(username),
 	}
 
 	err := client.Query(context.Background(), &query, variables)

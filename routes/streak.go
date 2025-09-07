@@ -2,12 +2,24 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/jasonlovesdoggo/katib/auth"
 	"github.com/jasonlovesdoggo/katib/getters"
+	"github.com/shurcooL/githubv4"
 )
 
 func StreakInfo(c *gin.Context) {
-	streakInfo, err := getters.GetStreakInfo(auth.Client)
+	client, exists := c.Get("github_client")
+	if !exists {
+		c.JSON(500, gin.H{"error": "GitHub client not found"})
+		return
+	}
+
+	username, exists := c.Get("username")
+	if !exists {
+		c.JSON(500, gin.H{"error": "Username not found"})
+		return
+	}
+
+	streakInfo, err := getters.GetStreakInfo(client.(*githubv4.Client), username.(string))
 	if err != nil {
 		c.JSON(500, gin.H{"error": err.Error()})
 		return
