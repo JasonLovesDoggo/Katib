@@ -1,91 +1,26 @@
-# Katib ✨ /ˈkɑːtib/
+# Katib
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/Jasonlovesdoggo/katib)](https://goreportcard.com/report/github.com/jasonlovesdoggo/katib)
+GitHub activity tracking API. Perfect for displaying recent commits on portfolios, building developer dashboards, or showcasing your GitHub activity. Named after the Arabic word for "writer" or "scribe".
 
-A simple Go API for showcasing GitHub activity on your portfolio 📜
+Live example: [katib.jsn.cam](https://jasoncameron.dev/)
 
-Need to show off your latest coding work? Katib grabs your most recent meaningful commits and your contribution streaks 
-from GitHub, so you can display them anywhere you want.
+## Features
 
-## What it does 
+- **Latest Commit**: Get the most recent commit with full details
+- **Commits History**: Get a list of recent commits with statistics  
+- **Contribution Streak**: Get GitHub contribution streak information
+- **Language Analysis**: Complete language breakdown across repositories
+- **Caching**: 60-second cache to optimize API usage
+- **Clean Authentication**: GitHub PAT support for rate limiting
 
-- **Smart commit filtering:** Only shows commits with actual substance (5+ line changes), skipping the tiny fixes
-- **Repository exclusions:** Skip specific repos you don't want to showcase 
-- **Language breakdown:** Shows what languages you used in each commit
-- **Contribution streaks:** Track your current streak and personal best
-- **Fast API:** Uses GitHub's GraphQL API for quick responses
-- **Built-in caching:** Responses are cached for 30 seconds to stay under rate limits
+## Quick Start
 
-## Endpoints
-
-### `GET /commits/latest`
-Returns your most recent meaningful commit with details about changes and languages used.
-
-### `GET /streak`
-Returns your current GitHub contribution streak and your all-time best streak.
-
-```json
-{
-  "currentStreak": 47,
-  "highestStreak": 124,
-  "active": true,
-}
+```bash
+# Clone and run
+git clone https://github.com/JasonLovesDoggo/Katib.git
+cd Katib
+echo "GITHUB_TOKEN=your_github_token" > .env
+go run main.go
 ```
 
-### Example commit response
-
-`GET /commits/latest`
-```json5
-{
-  "repo": "JasonLovesDoggo/Katib",
-  "additions": 9,
-  "deletions": 10,
-  "commitUrl": "https://github.com/JasonLovesDoggo/Katib/commit/3f3a28e668c5edd69ec21568c624b5d870ef364f",
-  "committedDate": "2024-07-15T16:28:59Z",
-  "oid": "3f3a28e",
-  "messageHeadline": "changed name to name with owner (Katib vs JasonLovesDoggo/Katib)",
-  "messageBody": "",
-  "languages": [
-    {
-      "size": 6161,
-      "name": "Go",
-      "color": "#00ADD8"
-    },
-    {
-      "size": 531,
-      "name": "Dockerfile",
-      "color": "#384d54"
-    }
-  ],
-  "parentCommits": [
-    {
-      "additions": 103,
-      "deletions": 67,
-      "commitUrl": "https://github.com/JasonLovesDoggo/Katib/commit/235777f7cb4690423e2997844cc34fdb696d16ab",
-      "committedDate": "2024-07-15T16:25:10Z",
-      "messageHeadline": "fix randomness & Improve features with \"Previous commits\""
-    },
-    {
-      "additions": 5,
-      "deletions": 7,
-      "commitUrl": "https://github.com/JasonLovesDoggo/Katib/commit/3634b24246ef8aef9d0a34d821d7bccd9c3538d2",
-      "committedDate": "2024-07-15T16:03:12Z",
-      "messageHeadline": "fix randomness"
-    },
-    {
-      "additions": 23,
-      "deletions": 5,
-      "commitUrl": "https://github.com/JasonLovesDoggo/Katib/commit/456673b8205d0be3579a6c2a3651fa20c502dc18",
-      "committedDate": "2024-07-15T15:50:17Z",
-      "messageHeadline": "added CA certs to the container"
-    },
-    {
-      "additions": 5,
-      "deletions": 6,
-      "commitUrl": "https://github.com/JasonLovesDoggo/Katib/commit/bab95410344f1962f2659409fca0dc2adf039f3e",
-      "committedDate": "2024-07-15T15:43:37Z",
-      "messageHeadline": "added ginmode as release"
-    }
-  ]
-}
-```
+API available at `http://localhost:8080` with full documentation.
