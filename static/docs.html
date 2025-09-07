@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Katib API</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; 
+            line-height: 1.6; 
+            background: #fafafa; 
+            color: #333;
+        }
+        .container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+        
+        .header { 
+            text-align: center; 
+            margin-bottom: 3rem; 
+            background: white; 
+            padding: 2.5rem 2rem; 
+            border-radius: 8px; 
+            border: 1px solid #e0e0e0;
+        }
+        .header h1 { 
+            font-size: 2.25rem; 
+            font-weight: 600; 
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        .subtitle { 
+            font-size: 1.1rem; 
+            color: #666; 
+            margin-bottom: 1rem; 
+        }
+        .description { 
+            color: #555; 
+            max-width: 550px; 
+            margin: 0 auto 1.5rem;
+        }
+        .use-cases {
+            color: #666;
+            font-size: 0.95rem;
+            margin-top: 1rem;
+        }
+
+        .section { 
+            background: white; 
+            border-radius: 8px; 
+            border: 1px solid #e0e0e0; 
+            margin-bottom: 2rem; 
+            overflow: hidden;
+        }
+        .section-header { 
+            background: #f8f9fa; 
+            padding: 1.25rem 2rem; 
+            border-bottom: 1px solid #e0e0e0; 
+        }
+        .section-header h2 { 
+            font-size: 1.4rem; 
+            font-weight: 600; 
+            color: #2c3e50; 
+        }
+        .section-content { padding: 2rem; }
+
+        .auth-info { 
+            background: #fff3cd; 
+            border: 1px solid #ffc107; 
+            border-radius: 6px; 
+            padding: 1.25rem; 
+            margin-bottom: 1.5rem; 
+        }
+        .auth-info p { margin: 0.5rem 0; }
+
+        .endpoints { display: grid; gap: 1.5rem; }
+        .endpoint { 
+            border: 1px solid #ddd; 
+            border-radius: 6px; 
+            overflow: hidden; 
+        }
+        .endpoint-header { 
+            background: #f5f5f5; 
+            padding: 1rem 1.5rem; 
+            border-bottom: 1px solid #ddd; 
+        }
+        .method { 
+            background: #007bff; 
+            color: white; 
+            padding: 0.25rem 0.75rem; 
+            border-radius: 4px; 
+            font-weight: 600; 
+            font-size: 0.85rem; 
+            margin-right: 1rem;
+        }
+        .path { font-family: monospace; color: #555; font-size: 1rem; }
+        .endpoint-body { padding: 1.25rem; }
+        .endpoint-desc { color: #666; margin-bottom: 1rem; }
+
+        .params-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 1rem 0; 
+            font-size: 0.9rem;
+        }
+        .params-table th { 
+            background: #f8f9fa; 
+            color: #555; 
+            font-weight: 600; 
+            padding: 0.75rem; 
+            text-align: left; 
+            border: 1px solid #ddd; 
+        }
+        .params-table td { 
+            padding: 0.75rem; 
+            border: 1px solid #ddd; 
+        }
+        .required { color: #dc3545; font-weight: 600; }
+
+        code { 
+            background: #f1f3f4; 
+            color: #555; 
+            padding: 0.2rem 0.4rem; 
+            border-radius: 3px; 
+            font-family: monospace; 
+            font-size: 0.9em;
+        }
+        pre { 
+            background: #f8f9fa; 
+            color: #555; 
+            padding: 1.25rem; 
+            border-radius: 6px; 
+            overflow-x: auto; 
+            font-family: monospace; 
+            margin: 1rem 0;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: #888;
+            font-size: 0.9rem;
+            border-top: 1px solid #e0e0e0;
+            margin-top: 3rem;
+        }
+        .footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 1rem; }
+            .header { padding: 2rem 1rem; }
+            .header h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Katib API</h1>
+            <div class="subtitle">GitHub Activity Tracking</div>
+            <div class="description">
+                Katib provides detailed commit information, language statistics, and contribution 
+                streaks for any GitHub user. Perfect for <a href="https://jasoncameron.dev/" target="_blank">displaying recent commits on portfolios</a>, 
+                building developer dashboards, or showcasing your GitHub activity. Named after the 
+                Arabic word for "writer" or "scribe".
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>🔐 Authentication</h2>
+            </div>
+            <div class="section-content">
+                <div class="auth-info">
+                    <p>All endpoints require a <code>username</code> parameter.</p>
+                    <p>GitHub Personal Access Token via <code>Authorization: Bearer TOKEN</code> header prevents API rate limiting.</p>
+                </div>
+                <p><strong>GitHub PAT Setup:</strong> GitHub Settings → Developer settings → Personal access tokens → Generate new token</p>
+                <p><em>No special permissions needed - used only to avoid hitting GitHub's API rate limits</em></p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>📡 API Endpoints</h2>
+            </div>
+            <div class="section-content">
+                <div class="endpoints">
+                    <div class="endpoint">
+                        <div class="endpoint-header">
+                            <span class="method">GET</span>
+                            <span class="path">/commits/latest</span>
+                        </div>
+                        <div class="endpoint-body">
+                            <div class="endpoint-desc">Get the most recent commit with full details including parent commits and language breakdown</div>
+                            <table class="params-table">
+                                <tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
+                                <tr><td>username</td><td>string</td><td class="required">Yes</td><td>GitHub username</td></tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="endpoint">
+                        <div class="endpoint-header">
+                            <span class="method">GET</span>
+                            <span class="path">/v2/commits/latest</span>
+                        </div>
+                        <div class="endpoint-body">
+                            <div class="endpoint-desc">Get recent commits list with aggregated statistics and complete language analysis</div>
+                            <table class="params-table">
+                                <tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
+                                <tr><td>username</td><td>string</td><td class="required">Yes</td><td>GitHub username</td></tr>
+                                <tr><td>limit</td><td>integer</td><td>No</td><td>Number of commits (default: 10)</td></tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="endpoint">
+                        <div class="endpoint-header">
+                            <span class="method">GET</span>
+                            <span class="path">/streak</span>
+                        </div>
+                        <div class="endpoint-body">
+                            <div class="endpoint-desc">Get GitHub contribution streak information including current and highest streaks</div>
+                            <table class="params-table">
+                                <tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
+                                <tr><td>username</td><td>string</td><td class="required">Yes</td><td>GitHub username</td></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>💻 Usage Examples</h2>
+            </div>
+            <div class="section-content">
+                <h3>Basic Usage</h3>
+                <pre>curl "http://localhost:8080/commits/latest?username=octocat"
+curl "http://localhost:8080/v2/commits/latest?username=torvalds&limit=5"</pre>
+
+                <h3>With Authentication</h3>
+                <pre>curl -H "Authorization: Bearer ghp_your_token_here" \
+     "http://localhost:8080/commits/latest?username=octocat"
+
+curl -H "Authorization: Bearer ghp_your_token_here" \
+     "http://localhost:8080/streak?username=torvalds"</pre>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        Made by Jason Cameron &lt;<a href="https://jsn.cam" target="_blank">jsn.cam</a>&gt; • 
+        <a href="https://github.com/JasonLovesDoggo/Katib" target="_blank">GitHub</a>
+    </div>
+</body>
+</html>

@@ -4,7 +4,17 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d9fd4bb3-42d6-44d9-9812-7461a3a0f874" name="Changes" comment="Add v2 endpoint for retrieving commits list with statistics" />
+    <list default="true" id="d9fd4bb3-42d6-44d9-9812-7461a3a0f874" name="Changes" comment="Add v2 endpoint for retrieving commits list with statistics">
+      <change afterPath="$PROJECT_DIR$/embed.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/docs.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/docs.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/fly-deploy.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/middleware/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/middleware/auth.go" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -80,7 +90,7 @@
     "RunOnceActivity.go.migrated.go.modules.settings": "true",
     "RunOnceActivity.go.modules.automatic.dependencies.download": "true",
     "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "main",
     "go.import.settings.migrated": "true",
     "go.sdk.automatically.set": "true",
     "junie.onboarding.icon.badge.shown": "true",
@@ -182,7 +192,8 @@
     <MESSAGE value="Updated README" />
     <MESSAGE value="Add streak endpoint and update README with new features" />
     <MESSAGE value="Add v2 endpoint for retrieving commits list with statistics" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add v2 endpoint for retrieving commits list with statistics" />
+    <MESSAGE value="Implement GitHub authentication middleware and update commit retrieval functions to support user-specific access tokens" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement GitHub authentication middleware and update commit retrieval functions to support user-specific access tokens" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

@@ -18,6 +18,9 @@ func main() {
 	r := gin.Default()
 	r.Use(cors.Default())
 	r.NoRoute(routes.NotFoundHandler)
+
+	// Public routes (no auth required)
+	r.GET("/", routes.DocsHandler(DocsHTML))
 	r.GET("/healthcheck", routes.HealthCheck)
 
 	// Apply auth middleware to API routes

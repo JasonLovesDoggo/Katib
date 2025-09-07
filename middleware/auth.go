@@ -3,11 +3,13 @@ package middleware
 import (
 	"net/http"
 	"slices"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jasonlovesdoggo/katib/auth"
 )
 
+// Whitelisted users (will use system GH PAT, no need to provide their own). Must be lowercase.
 var whitelist = []string{"jasonlovesdoggo", "araf821"}
 
 func AuthMiddleware() gin.HandlerFunc {
@@ -23,7 +25,7 @@ func AuthMiddleware() gin.HandlerFunc {
 		}
 
 		// Check if user is whitelisted (will use system GH PAT)
-		if slices.Contains(whitelist, username) {
+		if slices.Contains(whitelist, strings.ToLower(username)) {
 			// Use default client for whitelisted users
 			c.Set("github_client", auth.Client)
 			c.Set("username", username)
