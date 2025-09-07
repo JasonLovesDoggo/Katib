@@ -65,6 +65,11 @@ func GetMostRecentCommit(client *githubv4.Client) (MostRecentCommit, error) {
 											CommittedDate   time.Time
 											MessageHeadline string
 											MessageBody     string
+											Author          struct {
+												User struct {
+													Login string
+												}
+											}
 										}
 									} `graphql:"edges"`
 								} `graphql:"history(first: 5)"`
@@ -94,6 +99,12 @@ func GetMostRecentCommit(client *githubv4.Client) (MostRecentCommit, error) {
 
 		for _, edge := range repo.DefaultBranchRef.Target.Commit.History.Edges {
 			commit := edge.Node
+
+			// Skip commits not authored by JasonLovesDoggo
+			if commit.Author.User.Login != "JasonLovesDoggo" {
+				continue
+			}
+
 			if repo.NameWithOwner == mostRecentCommit.Repo && commit.CommittedDate.Before(mostRecentCommit.CommittedDate) {
 				mostRecentCommit.ParentCommits = append(mostRecentCommit.ParentCommits, parentCommit{
 					Additions:       commit.Additions,
