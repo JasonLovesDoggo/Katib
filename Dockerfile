@@ -1,4 +1,4 @@
-ARG GO_VERSION=1.22
+ARG GO_VERSION=1.25
 FROM golang:${GO_VERSION}-bookworm as builder
 
 LABEL maintainer="Jason Cameron katib@jasoncameron.dev"
