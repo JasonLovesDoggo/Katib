@@ -19,6 +19,7 @@ func main() {
 	r.NoRoute(routes.NotFoundHandler)
 	r.GET("/healthcheck", routes.HealthCheck)
 	r.GET("/commits/latest", cache.CachePage(store, cacheTime, routes.LatestCommit))
+	r.GET("/v2/commits/latest", cache.CachePage(store, cacheTime, routes.LatestCommitsV2))
 	r.GET("/streak", cache.CachePage(store, cacheTime, routes.StreakInfo))
 	r.Run()
 }
