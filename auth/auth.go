@@ -3,11 +3,12 @@ package auth
 import (
 	"context"
 	"fmt"
+	"log"
+	"os"
+
 	"github.com/joho/godotenv"
 	"github.com/shurcooL/githubv4"
 	"golang.org/x/oauth2"
-	"log"
-	"os"
 )
 
 var Client *githubv4.Client
