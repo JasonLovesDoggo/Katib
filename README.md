@@ -2,26 +2,37 @@
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/Jasonlovesdoggo/katib)](https://goreportcard.com/report/github.com/jasonlovesdoggo/katib)
 
-Showcase Your Coding Prowess with Katib, Your Personal GitHub Curator 📜
+A simple Go API for showcasing GitHub activity on your portfolio 📜
 
-Looking for a way to highlight your most impressive GitHub contributions on your portfolio? Katib, the digital scribe,
-is your solution! This Go tool elegantly extracts your latest meaningful commits, filtering out the noise and presenting
-a curated showcase of your coding expertise.
+Need to show off your latest coding work? Katib grabs your most recent meaningful commits and your contribution streaks 
+from GitHub, so you can display them anywhere you want.
 
-## Features 🚀
+## What it does 
 
-- **Curated Insights:** Katib only presents commits with a substantial impact, filtering out trivial changes to reveal
-  the user's true creative genius.
-- **Selective Focus:** Exclude specific repositories, ensuring Katib only showcases work from the repositories that
-  truly matter.
-- **Language Palette:** Get a vibrant snapshot of the programming languages used in the commit, adding a touch of
-  artistic flair. 🎨
-- **Effortless Integration:** Summon Katib as a standalone tool or seamlessly weave its magic into your existing Go
-  projects.
-- **GraphQL-Powered Precision:** Katib harnesses the power of GitHub's GraphQL API to swiftly and accurately retrieve
-  the desired information.
+- **Smart commit filtering:** Only shows commits with actual substance (5+ line changes), skipping the tiny fixes
+- **Repository exclusions:** Skip specific repos you don't want to showcase 
+- **Language breakdown:** Shows what languages you used in each commit
+- **Contribution streaks:** Track your current streak and personal best
+- **Fast API:** Uses GitHub's GraphQL API for quick responses
+- **Built-in caching:** Responses are cached for 30 seconds to stay under rate limits
 
-### Example output
+## Endpoints
+
+### `GET /commits/latest`
+Returns your most recent meaningful commit with details about changes and languages used.
+
+### `GET /streak`
+Returns your current GitHub contribution streak and your all-time best streak.
+
+```json
+{
+  "currentStreak": 47,
+  "highestStreak": 124,
+  "active": true,
+}
+```
+
+### Example commit response
 
 `GET /commits/latest`
 ```json5
