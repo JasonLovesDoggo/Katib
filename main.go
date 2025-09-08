@@ -11,7 +11,7 @@ import (
 	"github.com/jasonlovesdoggo/katib/routes"
 )
 
-var cacheTime = time.Second * 60 // Cache time in seconds (this leaves me with using around 1/82nd of my rate limit)
+var cacheTime = time.Second * 120 // Cache time in seconds (this leaves me with using around 1/164 of my rate limit)
 func main() {
 	store := persistence.NewInMemoryStore(time.Second)
 
