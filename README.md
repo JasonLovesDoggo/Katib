@@ -23,4 +23,4 @@ echo "GITHUB_TOKEN=your_github_token" > .env
 go run main.go
 ```
 
-API available at `http://localhost:8080` with full documentation.
+API available at `https://katib.jasoncameron.dev` with full documentation.
