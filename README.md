@@ -4,6 +4,8 @@ GitHub activity tracking API. Perfect for displaying recent commits on portfolio
 
 Live example: [katib.jsn.cam](https://jasoncameron.dev/)
 
+Visit https://katib.jsn.cam/v2/commits/latest?username=JasonLovesDoggo for a demo
+
 ## Features
 
 - **Latest Commit**: Get the most recent commit with full details
