@@ -10,7 +10,7 @@ import (
 )
 
 // Whitelisted users (will use system GH PAT, no need to provide their own). Must be lowercase.
-var whitelist = []string{"jasonlovesdoggo", "araf821"}
+var whitelist = []string{"jasonlovesdoggo", "araf821", "penqguin"}
 
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
